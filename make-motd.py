@@ -23,9 +23,6 @@ kernel_ver = exec_cmd("uname -v")
 uptime = exec_cmd("uptime")
 
 failed_sshd = None
-try:
-    failed_sshd = json.loads(''.join(exec_cmd("journalctl -u sshd --since today -p err --no-pager -o json")))
-except:
-    failed_sshd = None
+failed_sshd = json.loads(''.join(exec_cmd("journalctl -u sshd --since today -p err --no-pager -o json")))
 
 print(failed_sshd)
