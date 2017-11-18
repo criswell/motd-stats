@@ -2,5 +2,5 @@
 
 # Gather all the info
 KERNEL_REL=$(uname -r)
-KERNEL_VER-$(uname -v)
+KERNEL_VER=$(uname -v)
 
