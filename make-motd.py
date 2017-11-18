@@ -21,4 +21,11 @@ def exec_cmd(cmd):
 kernel_rel = exec_cmd("uname -r")
 kernel_ver = exec_cmd("uname -v")
 uptime = exec_cmd("uptime")
-failed_sshd_text = exec_cmd("journalctl -u sshd --since today -p err --no-pager -o json")
+
+failed_sshd = None
+try:
+    failed_sshd = json.loads(''.join(exec_cmd("journalctl -u sshd --since today -p err --no-pager -o json")))
+except:
+    failed_sshd = None
+
+
