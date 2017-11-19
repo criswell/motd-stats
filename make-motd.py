@@ -6,6 +6,10 @@ import jsonlines
 import subprocess
 from collections import Counter
 
+# Possibly want these to come from  config... but for now, meh
+MAX_SSH_LIST = 5
+MAX_SSH_IPS = 3
+
 def exec_cmd(cmd):
     #print(cmd)
     try:
@@ -40,9 +44,37 @@ for obj in fssh_reader:
         else:
             sshd_errors[user] = [ ip ]
 
-sshd_stats = {}
-for k in sshd_errors.keys():
-    sshd_stats[k] = { 'tries' : len(sshd_errors[k]),
-            'counter' : Counter(sshd_errors[k]) }
+class SSHD_Stat:
+    def __init__(self, user, tries, counter):
+        self.user = user
+        self.tries = tries
+        self.counter = counter
+    def __repr__(self):
+        return repr((self.user, self.tries, self.counter))
 
+s = []
+for k in sshd_errors.keys():
+    s.append(SSHD_Stat(k, len(sshd_errors[k]), Counter(sshd_errors[k])))
+
+sshd_stats = sorted(s, key=lambda stat : stat.tries)
 print(sshd_stats)
+
+motd = []
+
+motd.append("FAILED SSH ATTEMPT STATS")
+motd.append("========================")
+i = 0
+for s in sshd_stats:
+    motd.append("* User: {0}\tTries: {1}".format(s.user, s.tries))
+    k = 0
+    for ip in s.counter:
+        motd.append("\tIP: {0}\tTries: {1}".format(ip, s.counter[ip]))
+        k = k + 1
+        if k >= MAX_SSH_IPS:
+            break
+    i = i + 1
+    if i >= MAX_SSH_LIST:
+        break
+
+for l in motd:
+    print(l)
