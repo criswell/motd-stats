@@ -22,3 +22,32 @@ the last 24 hours along with IPs.
 * It displays uptime data.
 
 You probably want this in cron and piping the output to `/etc/motd`.
+
+What's it look like?
+--------------------
+
+```
+===========================================================================
+  KERNEL INFO
+===========================================================================
+* Running Kernel: 4.13.12-1-default #1 SMP PREEMPT Wed Nov 8 11:21:09 UTC 2017 (9151c66)
+* Available kernel(s):
+                kernel-default-4.13.11-1.2.x86_64
+                kernel-default-4.13.12-1.1.x86_64
+
+===========================================================================
+  FAILED SSH ATTEMPT STATS
+===========================================================================
+* User: root    Tries: 18405
+        IP: XX.YY.83.22        Tries: 5254
+        IP: XX.YYY.198.167      Tries: 4699
+        IP: XX.YYY.83.20        Tries: 8236
+* User: admin    Tries: 18405
+        IP: XX.YYY.83.22        Tries: 5254
+        IP: XX.YYY.198.167      Tries: 4699
+        IP: XX.YYY.83.20        Tries: 8236
+
+===========================================================================
+  UPTIME : 18:15:01  up  21:02,  2 users,  load average: 0.19, 0.14, 0.05
+===========================================================================
+```
