@@ -4,6 +4,7 @@ import sys
 import os
 import jsonlines
 import subprocess
+from collections import Counter
 
 def exec_cmd(cmd):
     #print(cmd)
@@ -37,4 +38,11 @@ for obj in fssh_reader:
         if user in sshd_errors:
             sshd_errors[user].append(ip)
         else:
-            ssdh_errors[user] = [ ip ]
+            sshd_errors[user] = [ ip ]
+
+sshd_stats = {}
+for k in sshd_errors.keys():
+    sshd_stats[k] = { 'tries' : len(sshd_errors[k]),
+            'counter' : Counter(sshd_errors[k]) }
+
+print(sshd_stats)
